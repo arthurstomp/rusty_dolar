@@ -1,18 +1,14 @@
+mod client;
 mod rate;
 
-use reqwest::blocking::Client;
+use client::Client;
 use std::env;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let client = Client::new();
+    let client = Client::new(env::var("FIXER_API_KEY")?);
+    let rate = client.rate(String::from("USD"), String::from("BRL"), 1.0)?;
 
-    let req = client
-        .get("https://api.apilayer.com/fixer/convert")
-        .header("apiKey", env::var("FIXER_API_KEY")?)
-        .query(&[("to", "BRL"), ("from", "USD"), ("amount", "1")]);
-
-    let res_json: rate::Result = req.send()?.json()?;
-    println!("{:#?}", res_json);
+    println!("{:#?}", rate);
 
     Ok(())
 }
