@@ -21,22 +21,22 @@ impl Client {
 
 #[derive(Deserialize, Debug)]
 pub struct Result {
+    pub query: Query,
+    pub info: Info,
+    pub result: f32,
     success: bool,
-    query: Query,
-    info: Info,
     date: String,
-    result: f32,
 }
 
 #[derive(Deserialize, Debug)]
-struct Query {
-    from: String,
-    to: String,
-    amount: i32,
+pub struct Query {
+    pub from: String,
+    pub to: String,
+    pub amount: i32,
 }
 
 #[derive(Deserialize, Debug)]
-struct Info {
+pub struct Info {
+    pub rate: f32,
     timestamp: i32,
-    rate: f32,
 }
